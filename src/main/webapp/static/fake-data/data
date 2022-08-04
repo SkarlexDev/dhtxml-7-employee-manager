@@ -1,0 +1,55 @@
+-- Table: projecta.employee
+
+-- DROP TABLE IF EXISTS projecta.employee;
+
+CREATE TABLE IF NOT EXISTS projecta.employee
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( CYCLE INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    name character varying COLLATE pg_catalog."default",
+    phone character varying COLLATE pg_catalog."default",
+    email character varying COLLATE pg_catalog."default" NOT NULL,
+    birth_date date,
+    address character varying COLLATE pg_catalog."default",
+    country character varying COLLATE pg_catalog."default",
+    CONSTRAINT employee_pkey PRIMARY KEY (id),
+    CONSTRAINT email_unique UNIQUE (email)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS projecta.employee
+    OWNER to postgres;
+    
+    
+    
+    
+    -- Table: projecta.vacation
+
+-- DROP TABLE IF EXISTS projecta.vacation;
+
+CREATE TABLE IF NOT EXISTS projecta.vacation
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( CYCLE INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    starting date,
+    ending date,
+    reason character varying COLLATE pg_catalog."default",
+    employee_id bigint NOT NULL,
+    CONSTRAINT vacation_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_vacation__employee_id FOREIGN KEY (employee_id)
+        REFERENCES projecta.employee (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS projecta.vacation
+    OWNER to postgres;
+-- Index: fki_fk_vacation__employee_id
+
+-- DROP INDEX IF EXISTS projecta.fki_fk_vacation__employee_id;
+
+CREATE INDEX IF NOT EXISTS fki_fk_vacation__employee_id
+    ON projecta.vacation USING btree
+    (employee_id ASC NULLS LAST)
+    TABLESPACE pg_default;
