@@ -3,7 +3,6 @@ package com.service.impl;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.bean.Employee;
 import com.dao.EmployeeDao;
@@ -20,33 +19,41 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-	private static final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
+    private static final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 
-	private final EmployeeDao employeeDao = new EmployeeDaoImpl();
+    private final EmployeeDao employeeDao = new EmployeeDaoImpl();
 
-	@Override
-	public String getAllJson() {
-		log.info("Requesting all Employee as json");
-		GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
-		gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-		gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
-		return gsonBuilder.create().toJson(employeeDao.findAll());
-	}
+    @Override
+    public String getAllJson() {
+        log.info("Requesting all Employee as json");
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+        gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+        return gsonBuilder.create().toJson(employeeDao.findAll());
+    }
 
-	@Override
-	public boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException {
-		log.info("Parsing json to Employee bean");
-		Employee bean = new Employee();
-		GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
-		gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-		bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
-		return employeeDao.save(bean);
-	}
+    @Override
+    public boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException {
+        log.info("Parsing json to Employee bean for save");
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
+        Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
+        return employeeDao.save(bean);
+    }
 
-	@Override
-	public boolean delete(HttpServletRequest req) throws IOException {
-		log.info("Parsing json to id");
-		Long id = Long.parseLong(req.getReader().lines().collect(Collectors.joining()).replaceAll("\\D", ""));
-		return employeeDao.delete(id);
-	}
+    @Override
+    public boolean delete(Long id) {
+        log.info("Parsing json to id");
+        return employeeDao.delete(id);
+    }
+
+    @Override
+    public boolean update(long parseLong, HttpServletRequest req) throws JsonSyntaxException, IOException {
+        log.info("Parsing json to Employee bean for update");
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
+        Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
+        System.out.println(bean);
+        return employeeDao.update(bean);
+    }
 }

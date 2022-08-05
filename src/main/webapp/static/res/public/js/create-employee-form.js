@@ -68,7 +68,7 @@ function create_emp_form() {
 				labelWidth: 140,
 				required: true,
 				placeholder: "Country",
-				newOptions: true,
+				newOptions: false,
 				data: [
 					{
 						"id": "Austria",

@@ -32,8 +32,7 @@ function create_vacation_form() {
                 dateFormat: "%d-%M-%Y",
                 disabled: true,
                 validation: function (value) {
-                    endValue = value;
-                    return value && new Date(endValue) > new Date(fromvalue);
+                    return value && new Date(value) > new Date(fromvalue);
                 },
                 errorMessage: "Invalid end Date!"
             },
@@ -45,7 +44,7 @@ function create_vacation_form() {
                 labelWidth: 140,
                 required: true,
                 placeholder: "Reason",
-                newOptions: true,
+                newOptions: false,
                 data: [
                     {
                         "id": "Holiday",

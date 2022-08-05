@@ -9,11 +9,11 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 
 public class LocalDateDeserializer implements JsonDeserializer<LocalDate> {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
 
-	@Override
-	public LocalDate deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) {
-		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
-		return LocalDate.parse(json.getAsJsonPrimitive().getAsString(), formatter);
-	}
+    @Override
+    public LocalDate deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) {
+        return LocalDate.parse(json.getAsJsonPrimitive().getAsString(), formatter);
+    }
 
 }

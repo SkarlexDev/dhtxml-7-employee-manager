@@ -68,7 +68,7 @@ const grid = new dhx.Grid(null, {
 	},
 	{
 		id: "action",
-		gravity: 1.5,
+		gravity: 2,
 		header: [{
 			text: "Actions",
 			align: "center"
@@ -76,11 +76,12 @@ const grid = new dhx.Grid(null, {
 		htmlEnable: true,
 		align: "center",
 		template: function () {
-			return "<span class='action-buttons'><a class='btn btn-info add-button'>Add</a><a class='btn btn-secondary list-button'>List</a><a class='btn btn-danger remove-button'>Delete</a></span>";
+			return "<span class='action-buttons'><a class='btn btn-primary add-button'>Add</a><a class='btn btn-secondary list-button'>List</a><a class='btn btn-info edit-button'>Edit</a><a class='btn btn-danger remove-button'>Delete</a></span>";
 		},
 	},
 	],
 	autoWidth: true,
+	selection: "row",
 	eventHandlers: {
 		onclick: {
 			"add-button": function (e, data) {
@@ -92,13 +93,14 @@ const grid = new dhx.Grid(null, {
 			"remove-button": function (e, data) {
 				add_delete_emp_bootbox(data);
 			},
+			"edit-button": function (e, data) {
+				edit_employee_bootbox(data);
+			},
 		},
 	},
 });
 
-
 grid.data.load("employee");
-
 
 layout.getCell("toolbar").attach(toolbar);
 layout.getCell("grid").attach(grid);

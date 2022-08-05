@@ -5,7 +5,7 @@ function create_vacation_list(data) {
 			{
 				id: "vacationFrom",
 				header: [{
-					text: "Birth Date",
+					text: "From",
 					align: "left"
 				}],
 				type: "date",
@@ -15,7 +15,7 @@ function create_vacation_list(data) {
 			{
 				id: "vacationTo",
 				header: [{
-					text: "Birth Date",
+					text: "To",
 					align: "left"
 				}],
 				type: "date",
@@ -25,7 +25,7 @@ function create_vacation_list(data) {
 			{
 				id: "reason",
 				header: [{
-					text: "reason"
+					text: "Reason"
 				}]
 			}
 		],

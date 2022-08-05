@@ -7,11 +7,13 @@ import com.bean.Employee;
 
 public interface EmployeeDao {
 
-	List<Employee> findAll();
+    List<Employee> findAll();
 
-	Optional<Employee> findByEmail(String email);
-	
-	boolean save(Employee bean);
+    Optional<Employee> findByEmail(String email);
 
-	boolean delete(Long id);
+    boolean save(Employee bean);
+
+    boolean delete(Long id);
+
+    boolean update(Employee bean);
 }

@@ -6,8 +6,8 @@ import com.bean.Vacation;
 
 public interface VacationDao {
 
-	List<Vacation> findAllByEmployee(Long id);
-	
-	boolean save(Vacation bean);
+    List<Vacation> findAllByEmployee(Long id);
+
+    boolean save(Vacation bean);
 
 }

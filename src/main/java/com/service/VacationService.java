@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface VacationService {
 
-	boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException;
+    boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException;
 
-	String getAllJson(Long id);
+    String getAllJson(Long id);
 }

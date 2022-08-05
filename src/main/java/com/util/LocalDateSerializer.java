@@ -10,10 +10,10 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 public class LocalDateSerializer implements JsonSerializer<LocalDate> {
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
 
-	@Override
-	public JsonElement serialize(LocalDate localDate, Type srcType, JsonSerializationContext context) {
-		return new JsonPrimitive(formatter.format(localDate));
-	}
+    @Override
+    public JsonElement serialize(LocalDate localDate, Type srcType, JsonSerializationContext context) {
+        return new JsonPrimitive(formatter.format(localDate));
+    }
 }

@@ -8,10 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface EmployeeService {
 
-	String getAllJson();
+    String getAllJson();
 
-	boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException;
+    boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException;
 
-	boolean delete(HttpServletRequest req) throws IOException;
-	
+    boolean delete(Long id);
+
+    boolean update(long parseLong, HttpServletRequest req) throws JsonSyntaxException, IOException;
+
 }
