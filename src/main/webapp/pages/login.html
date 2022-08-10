@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style>
+		h1 {
+			padding: 10px 0;
+			font-size: 32px;
+			font-weight: 300;
+			text-align: center;
+		}
+
+		hr {
+			color: #a9a9a9;
+			opacity: 0.3;
+		}
+
+		.main-block {
+			max-width: 350px;
+			min-height: 300px;
+			padding: 10px 0;
+			margin: auto;
+			border-radius: 5px;
+			border: solid 1px #ccc;
+			box-shadow: 1px 2px 5px rgba(0, 0, 0, .31);
+			background: #ebebeb;
+		}
+
+		form {
+			margin: 0 30px;
+		}
+
+		input[type=text],
+		input[type=password] {
+			width: 95%;
+			height: 36px;
+			margin: 4px auto;
+			padding-left: 10px;
+			border: solid 1px #cbc9c9;
+			box-shadow: 1px 2px 5px rgba(0, 0, 0, .09);
+			background: #fff;
+		}
+
+		button {
+			width: 100%;
+			padding: 10px 0;
+			margin: 10px auto;
+			border-radius: 5px;
+			border: none;
+			background: #1c87c9;
+			font-size: 14px;
+			font-weight: 600;
+			color: #fff;
+		}
+
+		button:hover {
+			background: #26a9e0;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<meta charset="UTF-8">
+	<title>Login</title>
+</head>
+
+<body>
+	<div class="main-block">
+		<h1>Login</h1>
+		<form id="loginForm">
+			<hr>
+			<input type="text" name="userName" id="userName" placeholder="Username" required />
+			<input type="password" name="password" id="password" placeholder="Password" required />
+			<hr>
+			<button type="submit" id="submitButton">Submit</button>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		$("#submitButton").click(function (e) {
+			e.preventDefault();
+			var formValue = {
+				userName: $("#userName").val(),
+				password: $("#password").val()
+			}
+			$.ajax({
+				type: "POST",
+				url: "login",
+				data: JSON.stringify(formValue),
+				success: function (data) {
+					location.href = "admin";
+				},
+				error: function (data) {
+					alert("Invalid data");
+				}
+			});
+		});
+	</script>
+
+</body>
+
+</html>

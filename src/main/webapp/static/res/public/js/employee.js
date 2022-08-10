@@ -1,5 +1,5 @@
 function add_emp_bootbox() {
-	dialog = bootbox.dialog({
+	let dialog = bootbox.dialog({
 		message: '<div id="form_emp"></div>',
 		closeButton: false,
 		title: 'New Employee',
@@ -28,11 +28,11 @@ function add_emp_bootbox() {
 			}
 		}
 	});
-	create_emp_form();
+	let form = create_emp_form();
 }
 
 function add_vacation_bootbox(data) {
-	dialog = bootbox.dialog({
+	let dialog = bootbox.dialog({
 		message: '<div id="form_vacation"></div>',
 		closeButton: false,
 		title: 'Add Vacation for: ' + data.row.name,
@@ -60,10 +60,10 @@ function add_vacation_bootbox(data) {
 			}
 		}
 	});
-	create_vacation_form();
+	let form = create_vacation_form();
 }
 function add_vacation_list_bootbox(data) {
-	dialog = bootbox.dialog({
+	bootbox.dialog({
 		message: '<div id="form_vacation_list"></div>',
 		closeButton: false,
 		title: 'Vacations for: ' + data.row.name,
@@ -78,7 +78,7 @@ function add_vacation_list_bootbox(data) {
 }
 
 function edit_employee_bootbox(data) {
-	dialog = bootbox.dialog({
+	let dialog = bootbox.dialog({
 		message: '<div id="form_emp"></div>',
 		closeButton: false,
 		title: 'Edit ' + data.row.name,
@@ -109,7 +109,7 @@ function edit_employee_bootbox(data) {
 			}
 		}
 	});
-	create_emp_form();
+	let form = create_emp_form();
 	form.setValue({
 		"name": data.row.name,
 		"phone": data.row.phone,
@@ -121,7 +121,7 @@ function edit_employee_bootbox(data) {
 }
 
 function add_delete_emp_bootbox(data) {
-	confirm = bootbox.confirm({
+	let confirm = bootbox.confirm({
 		size: "small",
 		closeButton: false,
 		title: "Are you sure? ",

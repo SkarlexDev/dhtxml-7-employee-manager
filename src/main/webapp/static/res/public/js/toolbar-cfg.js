@@ -13,5 +13,21 @@ const toolbarData = [
     },
     {
         type: "spacer"
+    },
+    {
+        id: "account",
+        type: "button",
+        circle: true,
+        value: user,
+        size: "small",
+        full: false,
+    },
+    {
+        id: "logout",
+        type: "button",
+        circle: true,
+        value: "Logout",
+        size: "small",
+        full: false,
     }
 ];

@@ -3,12 +3,14 @@ package com.servlet;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.service.VacationService;
 import com.service.impl.VacationServiceImpl;
+import com.util.HttpHandler;
 
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class VacationServlet extends HttpServlet {
 
@@ -20,6 +22,7 @@ public class VacationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         log.info("Request employee json");
+        HttpHandler.handle(res);
         res.setContentType("text/json");
         Long id = Long.parseLong(req.getParameter("id"));
         res.getWriter().println(vacationService.getAllJson(id));
@@ -28,6 +31,7 @@ public class VacationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         log.info("Request to create employee vacation entry");
+        HttpHandler.handle(res);
         if (vacationService.create(req)) {
             res.setStatus(HttpServletResponse.SC_ACCEPTED);
         } else {

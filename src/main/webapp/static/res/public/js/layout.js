@@ -21,6 +21,18 @@ toolbar.events.on("click", function (id) {
 	if (id === "add") {
 		add_emp_bootbox();
 	}
+	if (id === "account") {
+		location.href = "account";
+	}
+	if (id === "logout") {
+		$.ajax({
+			type: "GET",
+			url: "logout",
+			success: () => {
+				location.href = "login";
+			}
+		});
+	}
 });
 
 const grid = new dhx.Grid(null, {
@@ -68,7 +80,7 @@ const grid = new dhx.Grid(null, {
 	},
 	{
 		id: "action",
-		gravity: 2,
+		gravity: 2.5,
 		header: [{
 			text: "Actions",
 			align: "center"
@@ -76,7 +88,7 @@ const grid = new dhx.Grid(null, {
 		htmlEnable: true,
 		align: "center",
 		template: function () {
-			return "<span class='action-buttons'><a class='btn btn-primary add-button'>Add</a><a class='btn btn-secondary list-button'>List</a><a class='btn btn-info edit-button'>Edit</a><a class='btn btn-danger remove-button'>Delete</a></span>";
+			return "<span class='action-buttons'><a class='btn btn-success view-button'>View</a><a class='btn btn-primary add-button'>Add</a><a class='btn btn-secondary list-button'>List</a><a class='btn btn-info edit-button'>Edit</a><a class='btn btn-danger remove-button'>Delete</a></span>";
 		},
 	},
 	],
@@ -84,6 +96,9 @@ const grid = new dhx.Grid(null, {
 	selection: "row",
 	eventHandlers: {
 		onclick: {
+			"view-button": function (e, data) {
+				location.href = "account?id=" + data.row.id;
+			},
 			"add-button": function (e, data) {
 				add_vacation_bootbox(data);
 			},

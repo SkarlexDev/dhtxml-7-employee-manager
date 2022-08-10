@@ -1,5 +1,5 @@
 function create_emp_form() {
-	form = new dhx.Form("form_emp", {
+	let form = new dhx.Form("form_emp", {
 		css: "dhx_widget--bordered",
 		align: "center",
 		padding: "20px",
@@ -225,5 +225,6 @@ function create_emp_form() {
 			form.getItem("birthDate").validate();
 		}
 	});
+	return form;
 }
 

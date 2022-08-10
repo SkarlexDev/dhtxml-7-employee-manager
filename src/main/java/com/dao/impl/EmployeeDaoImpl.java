@@ -47,8 +47,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         if (findByEmail(bean.getEmail()).isPresent()) {
             return false;
         }
-        String sql = "INSERT INTO PROJECTA.EMPLOYEE (\"name\", PHONE, email, birth_date, address, country) " + "VALUES "
-                + "(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PROJECTA.EMPLOYEE (\"name\", PHONE, email, birth_date, address, country) " + "VALUES " + "(?, ?, ?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement st = null;
         try {
@@ -146,5 +145,28 @@ public class EmployeeDaoImpl implements EmployeeDao {
         } finally {
             DbUtil.closeConn(null, st, conn);
         }
+    }
+
+    @Override
+    public Optional<Employee> findByEmpID(Long id) {
+        log.info("Request to find Employee");
+        String sql = "Select * from projecta.employee where id = ?";
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = DbUtil.getConnection();
+            st = conn.prepareStatement(sql);
+            st.setLong(1, id);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                return Optional.of(createEmployee(rs));
+            }
+        } catch (ClassNotFoundException | SQLException e1) {
+            e1.printStackTrace();
+        } finally {
+            DbUtil.closeConn(rs, st, conn);
+        }
+        return Optional.empty();
     }
 }

@@ -16,4 +16,6 @@ public interface EmployeeDao {
     boolean delete(Long id);
 
     boolean update(Employee bean);
+
+    Optional<Employee> findByEmpID(Long id);
 }

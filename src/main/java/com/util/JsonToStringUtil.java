@@ -2,7 +2,8 @@ package com.util;
 
 import java.io.IOException;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 
 public class JsonToStringUtil {
 

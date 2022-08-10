@@ -1,5 +1,5 @@
 function create_vacation_form() {
-    form = new dhx.Form("form_vacation", {
+    let form = new dhx.Form("form_vacation", {
         css: "dhx_widget--bordered",
         align: "center",
         padding: "20px",
@@ -67,4 +67,5 @@ function create_vacation_form() {
             form.getItem(date).validate();
         }
     });
+    return form;
 }

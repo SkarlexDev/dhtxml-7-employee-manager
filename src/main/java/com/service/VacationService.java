@@ -2,9 +2,9 @@ package com.service;
 
 import java.io.IOException;
 
-import com.google.gson.JsonSyntaxException;
+import javax.servlet.http.HttpServletRequest;
 
-import jakarta.servlet.http.HttpServletRequest;
+import com.google.gson.JsonSyntaxException;
 
 public interface VacationService {
 

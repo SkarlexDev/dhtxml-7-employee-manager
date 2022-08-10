@@ -3,12 +3,14 @@ package com.servlet;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.service.EmployeeService;
 import com.service.impl.EmployeeServiceImpl;
-
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.util.HttpHandler;
 
 public class EmployeeServlet extends HttpServlet {
 
@@ -18,17 +20,18 @@ public class EmployeeServlet extends HttpServlet {
 
     private final EmployeeService employeeService = new EmployeeServiceImpl();
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         log.info("Request employee json");
+        HttpHandler.handle(res);
         res.setContentType("text/json");
         res.getWriter().println(employeeService.getAllJson());
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String action = req.getParameter("action");
-        System.out.println(action);
+        HttpHandler.handle(res);
         switch (action) {
-            case "add": {
+            case "add" -> {
                 log.info("Request to create new employee");
                 if (employeeService.create(req)) {
                     res.setStatus(HttpServletResponse.SC_ACCEPTED);
@@ -38,7 +41,7 @@ public class EmployeeServlet extends HttpServlet {
                 }
                 break;
             }
-            case "edit": {
+            case "edit" -> {
                 log.info("Request to edit employee");
                 if (employeeService.update(Long.parseLong(req.getParameter("id")), req)) {
                     res.setStatus(HttpServletResponse.SC_ACCEPTED);
@@ -48,7 +51,7 @@ public class EmployeeServlet extends HttpServlet {
                 }
                 break;
             }
-            case "delete": {
+            case "delete" -> {
                 log.info("Request to delete employee");
                 if (employeeService.delete(Long.parseLong(req.getParameter("id")))) {
                     res.setStatus(HttpServletResponse.SC_ACCEPTED);
@@ -58,7 +61,7 @@ public class EmployeeServlet extends HttpServlet {
                 }
                 break;
             }
-            default: {
+            default -> {
                 res.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 break;
             }

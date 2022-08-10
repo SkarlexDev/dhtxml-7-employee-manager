@@ -2,7 +2,10 @@ package com.service.impl;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.bean.Employee;
 import com.dao.EmployeeDao;
@@ -15,7 +18,6 @@ import com.util.JsonToStringUtil;
 import com.util.LocalDateDeserializer;
 import com.util.LocalDateSerializer;
 
-import jakarta.servlet.http.HttpServletRequest;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -53,7 +55,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
         Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
-        System.out.println(bean);
         return employeeDao.update(bean);
     }
+
+	@Override
+	public Optional<Employee> getByID(Long id) {
+		return employeeDao.findByEmpID(id);
+	}
 }
