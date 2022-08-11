@@ -22,6 +22,7 @@ public class LoginServlet extends HttpServlet {
 
     private final UserService userService = new UserServiceImpl();
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         log.info("Check if user is already logged");
         HttpHandler.handle(res);
@@ -35,6 +36,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         log.info("Processing login details");
         HttpHandler.handle(res);
@@ -49,11 +51,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 session = req.getSession(true);
                 session.setAttribute("user", admin.get());
-                res.setStatus(HttpServletResponse.SC_ACCEPTED);
-                req.getRequestDispatcher("admin").forward(req, res);
             }
         }
-
     }
-
 }

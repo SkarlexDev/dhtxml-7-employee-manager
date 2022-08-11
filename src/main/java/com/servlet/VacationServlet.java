@@ -20,6 +20,7 @@ public class VacationServlet extends HttpServlet {
 
     private final VacationService vacationService = new VacationServiceImpl();
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         log.info("Request employee json");
         HttpHandler.handle(res);
@@ -29,13 +30,12 @@ public class VacationServlet extends HttpServlet {
 
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         log.info("Request to create employee vacation entry");
         HttpHandler.handle(res);
-        if (vacationService.create(req)) {
-            res.setStatus(HttpServletResponse.SC_ACCEPTED);
-        } else {
-            res.setStatus(HttpServletResponse.SC_CONFLICT);
+        if (!vacationService.create(req)) {
+        	res.setStatus(HttpServletResponse.SC_CONFLICT);
         }
     }
 }

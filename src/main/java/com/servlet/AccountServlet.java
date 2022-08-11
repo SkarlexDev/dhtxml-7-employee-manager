@@ -1,6 +1,7 @@
 package com.servlet;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,7 @@ public class AccountServlet extends VelocityLayoutServlet {
 				e.printStackTrace();
 			}
 		} else {
+			final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
 			if (id != null) {
 				Optional<Employee> emp = employeeService.getByID(Long.parseLong(id));
 				if (emp.isPresent()) {
@@ -57,7 +59,9 @@ public class AccountServlet extends VelocityLayoutServlet {
 					}
 				}
 			}
-		}		
+			context.put("bdate", formatter.format(bean.getBirthDate()));
+		}
+		
 		context.put("user", bean);
 		return template;
 	}

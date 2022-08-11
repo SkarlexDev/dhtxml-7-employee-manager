@@ -20,6 +20,7 @@ public class EmployeeServlet extends HttpServlet {
 
     private final EmployeeService employeeService = new EmployeeServiceImpl();
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         log.info("Request employee json");
         HttpHandler.handle(res);
@@ -27,25 +28,22 @@ public class EmployeeServlet extends HttpServlet {
         res.getWriter().println(employeeService.getAllJson());
     }
 
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String action = req.getParameter("action");
         HttpHandler.handle(res);
         switch (action) {
             case "add" -> {
                 log.info("Request to create new employee");
-                if (employeeService.create(req)) {
-                    res.setStatus(HttpServletResponse.SC_ACCEPTED);
-                } else {
-                    log.info("Duplicate email!");
-                    res.setStatus(HttpServletResponse.SC_CONFLICT);
+                if (!employeeService.create(req)) {
+                	log.info("Duplicate email!");
+                	res.setStatus(HttpServletResponse.SC_CONFLICT);
                 }
                 break;
             }
             case "edit" -> {
                 log.info("Request to edit employee");
-                if (employeeService.update(Long.parseLong(req.getParameter("id")), req)) {
-                    res.setStatus(HttpServletResponse.SC_ACCEPTED);
-                } else {
+                if (!employeeService.update(Long.parseLong(req.getParameter("id")), req)) {
                     log.info("Invalid data!");
                     res.setStatus(HttpServletResponse.SC_CONFLICT);
                 }
@@ -53,9 +51,7 @@ public class EmployeeServlet extends HttpServlet {
             }
             case "delete" -> {
                 log.info("Request to delete employee");
-                if (employeeService.delete(Long.parseLong(req.getParameter("id")))) {
-                    res.setStatus(HttpServletResponse.SC_ACCEPTED);
-                } else {
+                if (!employeeService.delete(Long.parseLong(req.getParameter("id")))) {
                     log.info("Id not found");
                     res.setStatus(HttpServletResponse.SC_CONFLICT);
                 }

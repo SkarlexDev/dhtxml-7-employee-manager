@@ -26,5 +26,4 @@ public class UserServiceImpl implements UserService {
         User bean = (User) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), User.class);
 		return dao.findByNameAndPassword(bean.getUserName(), bean.getPassword());
 	}
-
 }

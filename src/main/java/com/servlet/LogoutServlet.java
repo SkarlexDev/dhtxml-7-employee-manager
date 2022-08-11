@@ -17,6 +17,7 @@ public class LogoutServlet extends HttpServlet {
 
     private final Logger log = Logger.getLogger(LogoutServlet.class.getName());
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         log.info("Request to logout");
         HttpHandler.handle(res);
@@ -30,8 +31,7 @@ public class LogoutServlet extends HttpServlet {
                 cookie.setMaxAge(0);
                 res.addCookie(cookie);
             }
-        } else {
-            res.sendRedirect("login");
-        }
+        } 
+        res.sendRedirect("login");
     }
 }

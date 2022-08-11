@@ -30,7 +30,8 @@ function create_vacation_list(data) {
 			}
 		],
 		autoWidth: true,
-		height: 300
+		height: 300,
+		selection: "row"
 
 	});
 	vacation.data.load("vacation?id=" + data.row.id);

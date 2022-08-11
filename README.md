@@ -9,5 +9,7 @@ Page functions:
 3. Add employee vacation </br>
 4. View employee vacation history </br>
 5. Delete employee </br>
+5. Edit employee </br>
+6. View employee - velocity page</br>
 
 DB schema : [Here](https://github.com/SkarlexDev/dhtxml-7-employee-manager/blob/main/src/main/webapp/static/fake-data/data)
