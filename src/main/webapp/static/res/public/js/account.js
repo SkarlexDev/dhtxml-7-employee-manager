@@ -137,8 +137,5 @@ $.ajax({
 	success: function(data) {
 		document.querySelector('span').innerText = data.length;
 		vacation.data.parse(data);
-	},
-	error: function(data) {
-		alert("Invalid data");
 	}
 });

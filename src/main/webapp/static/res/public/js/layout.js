@@ -21,6 +21,12 @@ toolbar.events.on("click", function (id) {
 	if (id === "add") {
 		add_emp_bootbox();
 	}
+	if (id === "download") {
+		window.location = "csv";
+	}
+	if (id === "upload") {
+		add_vacation_bootbox_upload();
+	}
 	if (id === "account") {
 		location.href = "account";
 	}

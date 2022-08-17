@@ -7,19 +7,19 @@ function add_emp_bootbox() {
 			cancel: {
 				label: 'Cancel',
 				className: 'btn-secondary',
-				callback: function () {
+				callback: function() {
 					form.clear();
 				}
 			},
 			submit: {
 				label: 'Submit',
 				className: 'btn-primary',
-				callback: function () {
+				callback: function() {
 					if (form.validate()) {
-						dhx.ajax.post("employee?action=add", form.getValue()).then(function () {
+						dhx.ajax.post("employee?action=add", form.getValue()).then(function() {
 							grid.data.load("employee");
 							dialog.modal('hide');
-						}).catch(function (err) {
+						}).catch(function(err) {
 							form.getItem("email").validate(false, "");
 						});
 					}
@@ -40,19 +40,31 @@ function add_vacation_bootbox(data) {
 			cancel: {
 				label: 'Cancel',
 				className: 'btn-secondary',
-				callback: function () {
+				callback: function() {
 					form.clear();
 				}
 			},
 			submit: {
 				label: 'Submit',
 				className: 'btn-primary',
-				callback: function () {
+				callback: function() {
 					if (form.validate()) {
 						var fullForm = form.getValue();
 						fullForm.employeeId = data.row.id;
-						dhx.ajax.post("vacation", fullForm).then(function () {
+						dhx.ajax.post("vacation", fullForm).then(function() {
 							dialog.modal('hide');
+						}).catch(function(err) {
+							bootbox.dialog({
+								title: 'Failed',
+								message: "<p>"+err.message+"</p>",
+								size: 'sm',
+								buttons: {
+									cancel: {
+										label: "ok",
+										className: 'btn-warning'
+									}
+								}
+							});
 						});
 					}
 					return false;
@@ -86,21 +98,21 @@ function edit_employee_bootbox(data) {
 			cancel: {
 				label: 'Cancel',
 				className: 'btn-secondary',
-				callback: function () {
+				callback: function() {
 					form.clear();
 				}
 			},
 			submit: {
 				label: 'Submit',
 				className: 'btn-primary',
-				callback: function () {
+				callback: function() {
 					if (form.validate()) {
 						var fullForm = form.getValue();
 						fullForm.id = data.row.id;
-						dhx.ajax.post("employee?action=edit&id=" + data.row.id, fullForm).then(function () {
+						dhx.ajax.post("employee?action=edit&id=" + data.row.id, fullForm).then(function() {
 							grid.data.load("employee");
 							dialog.modal('hide');
-						}).catch(function (err) {
+						}).catch(function(err) {
 							form.getItem("email").validate(false, "");
 						});
 					}
@@ -136,9 +148,9 @@ function add_delete_emp_bootbox(data) {
 				className: 'btn-secondary'
 			}
 		},
-		callback: function (result) {
+		callback: function(result) {
 			if (result) {
-				dhx.ajax.post("employee?action=delete&id=" + data.row.id).then(function () {
+				dhx.ajax.post("employee?action=delete&id=" + data.row.id).then(function() {
 					grid.data.load("employee");
 					confirm.modal('hide');
 				});
@@ -147,3 +159,4 @@ function add_delete_emp_bootbox(data) {
 		}
 	});
 }
+

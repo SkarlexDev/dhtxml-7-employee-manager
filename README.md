@@ -11,5 +11,7 @@ Page functions:
 5. Delete employee </br>
 5. Edit employee </br>
 6. View employee - velocity page</br>
+7. Download vacation csv</br>
+8. Upload vacation csv</br>
 
 DB schema : [Here](https://github.com/SkarlexDev/dhtxml-7-employee-manager/blob/main/src/main/webapp/static/fake-data/data)

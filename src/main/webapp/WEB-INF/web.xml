@@ -34,6 +34,11 @@
 		<servlet-name>logout</servlet-name>
 		<servlet-class>com.servlet.LogoutServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>csv</servlet-name>
+		<servlet-class>com.servlet.CSVServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>account</servlet-name>
@@ -63,6 +68,11 @@
 	<servlet-mapping>
 		<servlet-name>logout</servlet-name>
 		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>csv</servlet-name>
+		<url-pattern>/csv</url-pattern>
 	</servlet-mapping>
 	<!-- session timeout -->
 	<session-config>

@@ -34,8 +34,13 @@ public class VacationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         log.info("Request to create employee vacation entry");
         HttpHandler.handle(res);
-        if (!vacationService.create(req)) {
-        	res.setStatus(HttpServletResponse.SC_CONFLICT);
+        int status = vacationService.create(req);
+        if (status==400) {
+        	res.getWriter().write("Failed to create vacation");
         }
+        if(status==409) {
+        	res.getWriter().write("Invalid vacation period!");
+        }
+        res.setStatus(status);
     }
 }

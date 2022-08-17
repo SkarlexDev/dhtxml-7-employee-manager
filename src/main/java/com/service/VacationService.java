@@ -8,7 +8,7 @@ import com.google.gson.JsonSyntaxException;
 
 public interface VacationService {
 
-    boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException;
+    int create(HttpServletRequest req) throws JsonSyntaxException, IOException;
 
     String getAllJson(Long id);
 }

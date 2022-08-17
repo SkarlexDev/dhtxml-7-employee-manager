@@ -2,6 +2,9 @@ package com.bean;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = { "id" })
 public class Vacation {
 
     private Long id;

@@ -1,6 +1,7 @@
 package com.bean;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Employee {
 
@@ -49,6 +50,11 @@ public class Employee {
 
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+    
+    public String getBirthDateFormated() {
+    	final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
+        return formatter.format(this.getBirthDate());
     }
 
     public void setBirthDate(LocalDate birthDate) {
