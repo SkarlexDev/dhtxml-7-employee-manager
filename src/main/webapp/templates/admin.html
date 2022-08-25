@@ -1,19 +1,22 @@
 <!DOCTYPE html>
-<html>
-	<head>
-    	#parse("/fragments/index_header.html")
-    <script type="text/javascript">
-        var user = '${user}';
+<html lang="en">
+
+<head>
+	#parse("/fragments/index_header.html")
+	<script type="text/javascript">
+		var user = '${user}';
 	</script>
-	</head>
+</head>
+
 <body>
+	<div id="layout" style="height: 100%"></div>
 	<script type="text/javascript" src="static/res/public/js/toolbar-cfg.js"></script>
 	<script type="text/javascript" src="static/res/public/js/employee.js"></script>
+	<script type="text/javascript" src="static/res/public/js/layout.js"></script>
+	<script type="text/javascript" src="static/res/public/js/public-functions.js"></script>
 	<script type="text/javascript" src="static/res/public/js/create-employee-form.js"></script>
 	<script type="text/javascript" src="static/res/public/js/create-vacation-form.js"></script>
-	<script type="text/javascript" src="static/res/public/js/create-vacation-list.js"></script>
 	<script type="text/javascript" src="static/res/public/js/create-vacation-form-upload.js"></script>
-	<div id="layout" style="height: 100%"></div>
-	<script type="text/javascript" src="static/res/public/js/layout.js"></script>
 </body>
+
 </html>

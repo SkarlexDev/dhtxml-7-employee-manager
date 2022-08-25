@@ -1,17 +1,26 @@
 package com.dao;
 
-import java.util.List;
-
 import com.bean.Vacation;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface VacationDao {
 
-	List<Vacation> findAll();
+	Optional<Vacation> findById(Long id);
 	
-    List<Vacation> findAllByEmployee(Long id);
+	List<Vacation> findAll();
 
-    boolean save(Vacation bean);
-    
-    boolean saveAll(List<Vacation> list);
+	List<Vacation> findAllByEmployee(Long id);
+
+	List<Vacation> findAllByEmployeeWithPending(Long id);
+	
+	boolean save(Vacation bean);
+
+	boolean saveAll(List<Vacation> list);
+	
+	boolean update(Vacation bean);
+	
+	void handleVacationStatus(String status, Long id);
 
 }

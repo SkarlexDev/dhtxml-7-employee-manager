@@ -31,42 +31,47 @@ toolbar.events.on("click", function (id) {
 		location.href = "account";
 	}
 	if (id === "logout") {
-		$.ajax({
-			type: "GET",
-			url: "logout",
-			success: () => {
-				location.href = "login";
-			}
-		});
+		logout();
 	}
 });
 
 const grid = new dhx.Grid(null, {
 	columns: [{
 		id: "name",
-		gravity: 3,
+		gravity: 2,
 		header: [{
-			text: "Name"
-		}]
+			text: "Name",
+			align: "center",
+			rowspan: 2
+		}],
 	},
 	{
 		id: "phone",
-		gravity: 2,
+		gravity: 1.5,
 		header: [{
-			text: "Phone"
-		}]
+			text: "Phone",
+			align: "center"
+		}, {
+			content: "inputFilter"
+		}],
 	},
 	{
 		id: "email",
+		gravity: 1.5,
 		header: [{
-			text: "Email"
-		}]
+			text: "Email",
+			align: "center"
+		}, {
+			content: "inputFilter"
+		}],
 	},
 	{
 		id: "birthDate",
+		gravity: 2,
 		header: [{
 			text: "Birth Date",
-			align: "left"
+			align: "center",
+			rowspan: 2
 		}],
 		type: "date",
 		dateFormat: "%d-%M-%Y",
@@ -74,27 +79,51 @@ const grid = new dhx.Grid(null, {
 	},
 	{
 		id: "address",
+		gravity: 2,
 		header: [{
-			text: "Address"
+			text: "Address",
+			align: "center",
+			rowspan: 2
 		}]
 	},
 	{
 		id: "country",
 		header: [{
-			text: "Country"
-		}]
+			text: "Country",
+			align: "center",
+			rowspan: 2
+		}],
+	},
+	{
+		id: "roles",
+		gravity: 1.5,
+		header: [{
+			text: "Roles",
+			align: "center",
+			rowspan: 2
+		}],
+		template: accessTemplate,
+		htmlEnable: true,
+		editable: false,
+		align: "center"
 	},
 	{
 		id: "action",
-		gravity: 2.5,
+		gravity: 3.5,
 		header: [{
 			text: "Actions",
-			align: "center"
+			align: "center",
+			rowspan: 2
 		}],
 		htmlEnable: true,
 		align: "center",
 		template: function () {
-			return "<span class='action-buttons'><a class='btn btn-success view-button'>View</a><a class='btn btn-primary add-button'>Add</a><a class='btn btn-secondary list-button'>List</a><a class='btn btn-info edit-button'>Edit</a><a class='btn btn-danger remove-button'>Delete</a></span>";
+			return "<span class='action-buttons'>"
+				+ "<div class='btn btn-success view-button'>View</div>"
+				+ "<div class='btn btn-primary add-button'>Add</div>"
+				+ "<div class='btn btn-secondary list-button'>List</div>"
+				+ "<div class='btn btn-info edit-button'>Edit</div>"
+				+ "<div class='btn btn-danger remove-button'>Delete</div></span>";
 		},
 	},
 	],
@@ -121,6 +150,15 @@ const grid = new dhx.Grid(null, {
 	},
 });
 
+function accessTemplate(value) {
+	if (!value) return;
+	let result = "";
+	value.forEach(function (role) {
+		result = result.concat(`<div class="d-inline-block mr-1 px-1 border border-primary">${role.name}</div>`);
+
+	});
+	return `<div>${result}</div>`;
+}
 grid.data.load("employee");
 
 layout.getCell("toolbar").attach(toolbar);

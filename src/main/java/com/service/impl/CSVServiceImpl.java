@@ -27,7 +27,7 @@ public class CSVServiceImpl implements CSVService {
 	private final VacationDao vacationDao = new VacationDaoImpl();
 
 	@Override
-	public List<String> getAllVacantion() throws IOException {
+	public List<String> getAllVacation() throws IOException {
 		log.info("Request to create csv");
 		CsvMapper mapper = new CsvMapper();
 		mapper.findAndRegisterModules();
@@ -39,9 +39,12 @@ public class CSVServiceImpl implements CSVService {
 	}
 
 	public CsvSchema createSchema() throws IOException {
-		return CsvSchema.builder().addColumn("vacationFrom", CsvSchema.ColumnType.NUMBER_OR_STRING)
+		return CsvSchema.builder()
+				.addColumn("vacationFrom", CsvSchema.ColumnType.NUMBER_OR_STRING)
 				.addColumn("vacationTo", CsvSchema.ColumnType.NUMBER_OR_STRING)
-				.addColumn("reason", CsvSchema.ColumnType.STRING).addColumn("employeeId", CsvSchema.ColumnType.NUMBER)
+				.addColumn("reason", CsvSchema.ColumnType.STRING)
+				.addColumn("status", CsvSchema.ColumnType.STRING)
+				.addColumn("employeeId", CsvSchema.ColumnType.NUMBER)
 				.build().withColumnSeparator(',').withLineSeparator("\n").withHeader();
 	}
 
@@ -69,7 +72,7 @@ public class CSVServiceImpl implements CSVService {
 					resp.append("Invalid date - row: ").append(row.get() + 1).append("</br>");
 				}
 				if (!temp.add(v.toString())) {
-					resp.append("Duplicate - row: ").append(row.get() + 1).append("</br>");
+					resp.append("Duplicate - row: ").append(row.get() + 1 + " " + v).append("</br>");
 				}
 				if (dbCheckDuplicate(db, v)) {
 					resp.append("Duplicate database - row: ").append(row.get() + 1).append("</br>");
@@ -93,7 +96,7 @@ public class CSVServiceImpl implements CSVService {
 			return !(v.getVacationFrom().toString().length() > 0 && v.getVacationTo().toString().length() > 0
 					&& v.getEmployeeId().toString().length() > 0 && v.getReason().length() > 0);
 		}
-		return nullVerify;
+		return true;
 	}
 
 	private boolean dbCheckDuplicate(List<Vacation> db, Vacation v) {

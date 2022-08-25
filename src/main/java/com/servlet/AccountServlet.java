@@ -12,7 +12,6 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityLayoutServlet;
 
 import com.bean.Employee;
-import com.bean.User;
 import com.service.EmployeeService;
 import com.service.impl.EmployeeServiceImpl;
 import com.util.HttpHandler;
@@ -30,36 +29,50 @@ public class AccountServlet extends VelocityLayoutServlet {
 		String id = req.getParameter("id");
 		Employee bean = null;
 		HttpSession session = req.getSession(false);
-		if (session == null) {
-			try {
-				res.sendRedirect("login");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			if (id != null) {
-				Optional<Employee> emp = employeeService.getByID(Long.parseLong(id));
-				if (emp.isPresent()) {
-					bean = emp.get();
-				} else {
-					try {
-						res.sendRedirect("login");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+		if (session != null) {
+			Employee user = (Employee) session.getAttribute("user");
+			if (user == null) {
+				try {
+					res.sendRedirect("logout");
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			} else {
-				User user = (User) session.getAttribute("user");
-				if (user != null) {
-					Optional<Employee> emp = employeeService.getByID(user.getEmp_id());
+				if (id != null) {
+					Optional<Employee> emp = employeeService.getByID(Long.parseLong(id));
+					if (emp.isPresent()) {
+						bean = emp.get();
+					} else {
+						try {
+							res.sendRedirect("login");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				} else {
+					Optional<Employee> emp = employeeService.getByID(user.getId());
 					if (emp.isPresent()) {
 						bean = emp.get();
 					}
 				}
 			}
+			try {
+				context.put("user", bean);
+				context.put("role", session.getAttribute("role"));
+				context.put("visit", session.getAttribute("visit"));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		} else {
+			try {
+				res.sendRedirect("login");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
-		context.put("user", bean);
+
+
 		return template;
 	}
 }

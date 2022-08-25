@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bean.User;
-import com.service.UserService;
-import com.service.impl.UserServiceImpl;
+import com.bean.Employee;
+import com.service.EmployeeService;
+import com.service.impl.EmployeeServiceImpl;
 import com.util.HttpHandler;
 
 public class LoginServlet extends HttpServlet {
@@ -20,7 +20,7 @@ public class LoginServlet extends HttpServlet {
 
     private final Logger log = Logger.getLogger(LoginServlet.class.getName());
 
-    private final UserService userService = new UserServiceImpl();
+    private final EmployeeService employeeService = new EmployeeServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session != null) {
             log.info("User is already logged redirecting to admin page");
-            res.sendRedirect("admin");
+            res.sendRedirect("account");
         } else {
             log.info("User is not logged accessing login page");
             req.getRequestDispatcher("pages/login.html").forward(req, res);
@@ -41,16 +41,19 @@ public class LoginServlet extends HttpServlet {
         log.info("Processing login details");
         HttpHandler.handle(res);
         HttpSession session = req.getSession(false);
+        String role;
         if (session != null) {
-            res.sendRedirect("admin");
+            res.sendRedirect("account");
         } else {
-            Optional<User> admin = userService.getByUserNameAndPassword(req);
-            if (admin.isEmpty()) {
+            Optional<Employee> user = employeeService.getByUserNameAndPassword(req);
+            if (user.isEmpty()) {
                 res.getWriter().print("User not found!");
                 res.setStatus(HttpServletResponse.SC_FORBIDDEN);
             } else {
+            	role =  user.get().getRoles().stream().anyMatch(r-> r.getName().equals("Admin")) ? "Admin" : "User";
                 session = req.getSession(true);
-                session.setAttribute("user", admin.get());
+                session.setAttribute("user", user.get());
+                session.setAttribute("role", role);
             }
         }
     }

@@ -5,6 +5,6 @@ import java.io.InputStream;
 import java.util.List;
 
 public interface CSVService {
-	List<String> getAllVacantion() throws IOException;
+	List<String> getAllVacation() throws IOException;
 	String upload(InputStream fileInputStream) throws IOException;
 }

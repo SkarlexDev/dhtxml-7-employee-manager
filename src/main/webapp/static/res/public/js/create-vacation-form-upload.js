@@ -7,14 +7,14 @@ function add_vacation_bootbox_upload() {
 			cancel: {
 				label: 'Cancel',
 				className: 'btn-secondary',
-				callback: function() {
+				callback: function () {
 
 				}
 			},
 			submit: {
 				label: 'Submit',
 				className: 'btn-primary',
-				callback: function() {
+				callback: function () {
 					var form = $('#upload')[0];
 					var data = new FormData(form);
 					$.ajax({
@@ -25,14 +25,14 @@ function add_vacation_bootbox_upload() {
 						processData: false,
 						contentType: false,
 						cache: false,
-						success: function(data) {
+						success: function (data) {
 							dialog.modal('hide');
 							bootbox.alert("Uploaded!");
 						},
-						error: function(data) {
+						error: function (data) {
 							bootbox.dialog({
 								title: 'Failed to upload',
-								message: "<p>"+data.responseText+"</p>",
+								message: "<p>" + data.responseText + "</p>",
 								size: 'large',
 								buttons: {
 									cancel: {

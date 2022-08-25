@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS projecta.employee
     name character varying COLLATE pg_catalog."default",
     phone character varying COLLATE pg_catalog."default",
     email character varying COLLATE pg_catalog."default" NOT NULL,
+    password character varying COLLATE pg_catalog."default",
+    vacations bigint,
     birth_date date,
     address character varying COLLATE pg_catalog."default",
     country character varying COLLATE pg_catalog."default",
@@ -19,10 +21,71 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS projecta.employee
     OWNER to postgres;
-    
-    
-    
-    
+
+-- Table: projecta.role
+
+-- DROP TABLE IF EXISTS projecta.role;
+
+CREATE TABLE IF NOT EXISTS projecta.role
+(
+    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( CYCLE INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    name character varying COLLATE pg_catalog."default",
+    CONSTRAINT role_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS projecta.role
+    OWNER to postgres;
+
+-- Table: projecta.employee_role
+
+-- DROP TABLE IF EXISTS projecta.employee_role;
+
+CREATE TABLE IF NOT EXISTS projecta.employee_role
+(
+    emp_id bigint NOT NULL,
+    role_id bigint NOT NULL,
+    CONSTRAINT employee_role_pkey PRIMARY KEY (emp_id, role_id),
+    CONSTRAINT emp_id_fk FOREIGN KEY (emp_id)
+        REFERENCES projecta.employee (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT role_id_fk FOREIGN KEY (role_id)
+        REFERENCES projecta.role (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS projecta.employee_role
+    OWNER to postgres;
+-- Index: fki_emp_id_fk
+
+-- DROP INDEX IF EXISTS projecta.fki_emp_id_fk;
+
+CREATE INDEX IF NOT EXISTS fki_emp_id_fk
+    ON projecta.employee_role USING btree
+    (emp_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_r
+
+-- DROP INDEX IF EXISTS projecta.fki_r;
+
+CREATE INDEX IF NOT EXISTS fki_r
+    ON projecta.employee_role USING btree
+    (emp_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_role_id_fk
+
+-- DROP INDEX IF EXISTS projecta.fki_role_id_fk;
+
+CREATE INDEX IF NOT EXISTS fki_role_id_fk
+    ON projecta.employee_role USING btree
+    (role_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
 -- Table: projecta.vacation
 
 -- DROP TABLE IF EXISTS projecta.vacation;
@@ -33,9 +96,10 @@ CREATE TABLE IF NOT EXISTS projecta.vacation
     starting date,
     ending date,
     reason character varying COLLATE pg_catalog."default",
+    status character varying COLLATE pg_catalog."default",
     employee_id bigint NOT NULL,
     CONSTRAINT vacation_pkey PRIMARY KEY (id),
-    CONSTRAINT fk_vacation__employee_id FOREIGN KEY (employee_id)
+    CONSTRAINT emp_id_fk FOREIGN KEY (employee_id)
         REFERENCES projecta.employee (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
@@ -52,35 +116,4 @@ ALTER TABLE IF EXISTS projecta.vacation
 CREATE INDEX IF NOT EXISTS fki_fk_vacation__employee_id
     ON projecta.vacation USING btree
     (employee_id ASC NULLS LAST)
-    TABLESPACE pg_default;
-
--- Table: projecta.user
-
--- DROP TABLE IF EXISTS projecta."user";
-
-CREATE TABLE IF NOT EXISTS projecta."user"
-(
-    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( CYCLE INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
-    user_name character varying COLLATE pg_catalog."default",
-    password character varying COLLATE pg_catalog."default",
-    full_name character varying COLLATE pg_catalog."default",
-    emp_id bigint,
-    CONSTRAINT user_pkey PRIMARY KEY (id),
-    CONSTRAINT fk_user__employee_id FOREIGN KEY (emp_id)
-        REFERENCES projecta.employee (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS projecta."user"
-    OWNER to postgres;
--- Index: fki_fk_user__employee_id
-
--- DROP INDEX IF EXISTS projecta.fki_fk_user__employee_id;
-
-CREATE INDEX IF NOT EXISTS fki_fk_user__employee_id
-    ON projecta."user" USING btree
-    (emp_id ASC NULLS LAST)
     TABLESPACE pg_default;

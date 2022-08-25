@@ -32,14 +32,17 @@ public class CSVServlet extends HttpServlet {
 		HttpHandler.handle(res);
 		HttpSession session = req.getSession(false);
 		if (session != null) {
+			String role = (String) session.getAttribute("role");
+			if(role == null || !role.contains("Admin")) {
+				res.sendRedirect("account");
+			}
 			res.setHeader("Content-disposition", "attachment; filename=sample.csv");
 			ServletOutputStream out = res.getOutputStream();
-			for (String elem : csvService.getAllVacantion()) {
+			for (String elem : csvService.getAllVacation()) {
 				out.write(elem.getBytes());
 			}
 		} else {
 			log.info("Invalid user");
-			System.out.println("Invalid user");
 		}
 	}
 

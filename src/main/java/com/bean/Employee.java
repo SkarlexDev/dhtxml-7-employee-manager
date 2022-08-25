@@ -2,6 +2,8 @@ package com.bean;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Employee {
 
@@ -12,6 +14,9 @@ public class Employee {
     private LocalDate birthDate;
     private String address;
     private String country;
+    private String password;
+    private Long vacations;
+    private Set<Role> roles = new HashSet<>();
 
     public Employee() {
     }
@@ -52,7 +57,7 @@ public class Employee {
         return birthDate;
     }
     
-    public String getBirthDateFormated() {
+    public String getBirthDateFormatted() {
     	final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
         return formatter.format(this.getBirthDate());
     }
@@ -76,11 +81,41 @@ public class Employee {
     public void setCountry(String country) {
         this.country = country;
     }
+    
+    public String getPassword() {
+		return password;
+	}
 
-    @Override
-    public String toString() {
-        return "Employee [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", birthDate="
-                + birthDate + ", address=" + address + ", country=" + country + "]";
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	
+	public void addRole(Role role) {
+		roles.add(role);
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Long getVacations() {
+		return vacations;
+	}
+
+	public void setVacations(Long vacations) {
+		this.vacations = vacations;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", birthDate="
+				+ birthDate + ", address=" + address + ", country=" + country + ", password=" + password
+				+ ", vacations=" + vacations + ", roles=" + roles + "]";
+	}
+	
 
 }

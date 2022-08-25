@@ -20,5 +20,7 @@ public interface EmployeeService {
     boolean update(long parseLong, HttpServletRequest req) throws JsonSyntaxException, IOException;
 
     Optional<Employee> getByID(Long id);
+    
+    Optional<Employee> getByUserNameAndPassword(HttpServletRequest req) throws JsonSyntaxException, IOException;
 
 }

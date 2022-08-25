@@ -10,7 +10,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityLayoutServlet;
 
-import com.bean.User;
+import com.bean.Employee;
 import com.util.HttpHandler;
 
 public class AdminServlet extends VelocityLayoutServlet {
@@ -21,9 +21,19 @@ public class AdminServlet extends VelocityLayoutServlet {
     public Template handleRequest(HttpServletRequest req, HttpServletResponse res, Context context) {
         HttpHandler.handle(res);
         HttpSession session = req.getSession(false);
+        Template template = getTemplate("templates/admin.html");
         String name = null;
         if (session != null) {
-            User user = (User) session.getAttribute("user");
+        	String role = (String) session.getAttribute("role");
+        	if(role == null || !role.contains("Admin")) {
+        		try {
+					res.sendRedirect("account");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+        		return template;
+        	}
+        	Employee user = (Employee) session.getAttribute("user");
             if (user == null) {
                 try {
                     res.sendRedirect("logout");
@@ -31,7 +41,12 @@ public class AdminServlet extends VelocityLayoutServlet {
                     e.printStackTrace();
                 }
             } else {
-                name = user.getUserName();
+                name = user.getName();
+            }
+            try {
+                session.setAttribute("visit", true);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         } else {
             try {
@@ -40,7 +55,6 @@ public class AdminServlet extends VelocityLayoutServlet {
                 e.printStackTrace();
             }
         }
-        Template template = getTemplate("templates/index.html");
         context.put("user", name);
         return template;
     }

@@ -62,4 +62,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Optional<Employee> getByID(Long id) {
 		return employeeDao.findByEmpID(id);
 	}
+
+	@Override
+	public Optional<Employee> getByUserNameAndPassword(HttpServletRequest req) throws JsonSyntaxException, IOException {
+		log.info("Parse json to user");
+		GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+        gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+		Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
+		return employeeDao.findByLoginAndPassword(bean.getEmail(), bean.getPassword());
+	}
 }
