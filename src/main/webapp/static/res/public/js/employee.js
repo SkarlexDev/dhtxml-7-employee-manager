@@ -32,7 +32,7 @@ function add_emp_bootbox() {
 }
 
 function add_vacation_bootbox(data) {
-	requestVacationForm(data.row.name, data.row.id, 'add');
+	requestVacationForm('Add vacation for ' + data.row.name, data.row.id, 'add');
 }
 function add_vacation_list_bootbox(data) {
 	viewVacationList(data.row.name);

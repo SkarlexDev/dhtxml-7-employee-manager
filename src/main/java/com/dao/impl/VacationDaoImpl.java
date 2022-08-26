@@ -20,21 +20,21 @@ public class VacationDaoImpl implements VacationDao {
 		String sql = "select * from projecta.vacation where id = ?";
 		Connection conn = null;
 		PreparedStatement st = null;
-		ResultSet rs= null;
+		ResultSet rs = null;
 		try {
-            conn = DbUtil.getConnection();
-            st = conn.prepareStatement(sql);
-            st.setLong(1, id);
-            rs = st.executeQuery();
-            if (rs.next()) {
-                return Optional.of(createVacation(rs));
-            }
-        } catch (ClassNotFoundException | SQLException e1) {
-            e1.printStackTrace();
-        } finally {
-            DbUtil.closeConn(rs, st, conn);
-        }
-        return Optional.empty();
+			conn = DbUtil.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setLong(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				return Optional.of(createVacation(rs));
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		} finally {
+			DbUtil.closeConn(rs, st, conn);
+		}
+		return Optional.empty();
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class VacationDaoImpl implements VacationDao {
 		List<Vacation> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement st = null;
-		ResultSet rs;
+		ResultSet rs = null;
 		try {
 			conn = DbUtil.getConnection();
 			st = conn.prepareStatement(sql);
@@ -55,7 +55,7 @@ public class VacationDaoImpl implements VacationDao {
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		} finally {
-			DbUtil.closeConn(null, st, conn);
+			DbUtil.closeConn(rs, st, conn);
 		}
 		return list;
 	}
@@ -67,7 +67,7 @@ public class VacationDaoImpl implements VacationDao {
 		List<Vacation> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement st = null;
-		ResultSet rs;
+		ResultSet rs = null;
 		try {
 			conn = DbUtil.getConnection();
 			st = conn.prepareStatement(sql);
@@ -79,7 +79,7 @@ public class VacationDaoImpl implements VacationDao {
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		} finally {
-			DbUtil.closeConn(null, st, conn);
+			DbUtil.closeConn(rs, st, conn);
 		}
 		return list;
 	}
@@ -91,7 +91,7 @@ public class VacationDaoImpl implements VacationDao {
 		List<Vacation> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement st = null;
-		ResultSet rs;
+		ResultSet rs = null;
 		try {
 			conn = DbUtil.getConnection();
 			st = conn.prepareStatement(sql);
@@ -103,7 +103,7 @@ public class VacationDaoImpl implements VacationDao {
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		} finally {
-			DbUtil.closeConn(null, st, conn);
+			DbUtil.closeConn(rs, st, conn);
 		}
 		return list;
 	}
@@ -148,7 +148,7 @@ public class VacationDaoImpl implements VacationDao {
 				st.setLong(5, bean.getEmployeeId());
 				st.addBatch();
 			}
-			int [] execute = st.executeBatch();
+			int[] execute = st.executeBatch();
 			for (int j : execute) {
 				if (j == 0) {
 					return false;
@@ -202,9 +202,9 @@ public class VacationDaoImpl implements VacationDao {
 		} finally {
 			DbUtil.closeConn(null, st, conn);
 		}
-		
+
 	}
-	
+
 	private Vacation createVacation(ResultSet rs) throws SQLException {
 		Vacation bean = new Vacation();
 		bean.setId(rs.getLong(1));
@@ -215,5 +215,5 @@ public class VacationDaoImpl implements VacationDao {
 		bean.setEmployeeId(rs.getLong(6));
 		return bean;
 	}
-	
+
 }

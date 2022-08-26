@@ -1,6 +1,7 @@
-$("#submitButton").click(function (e) {
-	e.preventDefault();
-	var formValue = {
+const form = document.querySelector('#loginForm');
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+   var formValue = {
 		email: $("#email").val(),
 		password: $("#password").val()
 	}
@@ -15,4 +16,5 @@ $("#submitButton").click(function (e) {
 			alert("Invalid data");
 		}
 	});
-});
+
+})

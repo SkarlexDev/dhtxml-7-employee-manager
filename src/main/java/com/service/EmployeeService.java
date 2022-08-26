@@ -23,4 +23,8 @@ public interface EmployeeService {
     
     Optional<Employee> getByUserNameAndPassword(HttpServletRequest req) throws JsonSyntaxException, IOException;
 
+	boolean activate(HttpServletRequest req) throws JsonSyntaxException, IOException;
+
+	boolean findByKeyNotActivated(String key);
+
 }

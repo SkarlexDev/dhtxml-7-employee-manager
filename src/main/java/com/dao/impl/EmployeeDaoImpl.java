@@ -70,7 +70,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	@Override
 	public Optional<Employee> findByLoginAndPassword(String login, String password) {
 		log.info("Request to find User by name and password");
-		String sql = "select * from projecta.employee where email = ? and password = ?";
+		String sql = "select * from projecta.employee where password = ? and email = ? or alias = ?";
 		Connection conn = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -78,8 +78,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		try {
 			conn = DbUtil.getConnection();
 			st = conn.prepareStatement(sql);
-			st.setString(1, login);
-			st.setString(2, password);
+			st.setString(1, password);
+			st.setString(2, login);
+			st.setString(3, login);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				bean = Optional.of(createEmployee(rs, conn));
@@ -100,7 +101,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		List<Employee> list = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement st = null;
-		ResultSet rs;
+		ResultSet rs = null;
 		try {
 			conn = DbUtil.getConnection();
 			st = conn.prepareStatement(sql);
@@ -111,7 +112,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		} finally {
-			DbUtil.closeConn(null, st, conn);
+			DbUtil.closeConn(rs, st, conn);
 		}
 		return list;
 	}
@@ -122,8 +123,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		if (findByEmail(bean.getEmail()).isPresent()) {
 			return false;
 		}
-		String sql = "insert into projecta.employee (name, phone, email, birth_date, address, country, password, vacations) "
-				+ "VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into projecta.employee (name, phone, email, birth_date, address, country, password, vacations, activated, activation_key) "
+				+ "VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conn = null;
 		PreparedStatement st = null;
 		try {
@@ -135,8 +136,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			st.setDate(4, Date.valueOf(bean.getBirthDate()));
 			st.setString(5, bean.getAddress());
 			st.setString(6, bean.getCountry());
-			st.setString(7, "123");
+			st.setString(7, bean.getPassword());
 			st.setLong(8, 50);
+			st.setBoolean(9, false);
+			st.setString(10, bean.getActivation_key());
 			if (st.executeUpdate() > 0) {
 				String role = "insert into projecta.employee_role (emp_id , role_id) Values ((select e.id from projecta.employee e where e.email = ?), (select r.id from projecta.role r where r.name ='User'))";
 				PreparedStatement sts = conn.prepareStatement(role);
@@ -241,6 +244,48 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		}
 	}
 	
+	@Override
+	public boolean activate(Employee bean, String key) {
+		log.info("Request to activate Employee");
+		String sql = "update projecta.employee set alias = ?, password = ?, activated = true where activation_key = ? and activated = false";
+		Connection conn = null;
+		PreparedStatement st = null;
+		try {
+			conn = DbUtil.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setString(1, bean.getAlias());
+			st.setString(2, bean.getPassword());
+			st.setString(3, key);
+			return st.executeUpdate() > 0;
+		} catch (ClassNotFoundException | SQLException e1) {
+			log.info("No key found");
+			return false;
+		} finally {
+			DbUtil.closeConn(null, st, conn);
+		}
+	}
+	
+	@Override
+	public boolean findByKey(String key) {
+		log.info("Request to find employee by activation key");
+		String sql = "select * from projecta.employee where activation_key = ? and activated = false";
+		Connection conn = null;
+		PreparedStatement st = null;
+		ResultSet rs= null;
+		try {
+			conn = DbUtil.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setString(1, key);
+			rs = st.executeQuery();
+			return rs.next();
+		} catch (ClassNotFoundException | SQLException e1) {
+			log.info("No employee found");
+			return false;
+		} finally {
+			DbUtil.closeConn(rs, st, conn);
+		}
+	}
+	
 	private Employee createEmployee(ResultSet rs, Connection conn) throws SQLException {
 		Employee bean = new Employee();
 		bean.setId(rs.getLong(1));
@@ -274,4 +319,5 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		bean.setName(rs.getString(1));
 		return bean;
 	}
+
 }

@@ -15,6 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.LongSerializationPolicy;
 import com.service.EmployeeService;
 import com.util.JsonToStringUtil;
+import com.util.KeyGen;
 import com.util.LocalDateDeserializer;
 import com.util.LocalDateSerializer;
 
@@ -24,7 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 
     private final EmployeeDao employeeDao = new EmployeeDaoImpl();
-
+    
     @Override
     public String getAllJson() {
         log.info("Requesting all Employee as json");
@@ -40,7 +41,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
         Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
-        return employeeDao.save(bean);
+        bean.setPassword(KeyGen.generateRandomPassword(20));
+        bean.setActivation_key(KeyGen.generateRandomPassword(45));
+        boolean state = employeeDao.save(bean);
+        if(state) {
+        	Thread mail = new Thread(new MailServiceImpl(bean));
+        	mail.start();
+        }
+        return state;
     }
 
     @Override
@@ -71,5 +79,26 @@ public class EmployeeServiceImpl implements EmployeeService {
         gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
 		Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
 		return employeeDao.findByLoginAndPassword(bean.getEmail(), bean.getPassword());
+	}
+
+	@Override
+	public boolean activate(HttpServletRequest req) throws JsonSyntaxException, IOException {
+		log.info("Parse json to user");
+		GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+        gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
+		Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
+		if(bean.getAlias() == null || bean.getPassword() == null) {
+			return false;
+		}else {
+			String key = req.getParameter("key");
+			return employeeDao.activate(bean, key);
+		}
+	}
+
+	@Override
+	public boolean findByKeyNotActivated(String key) {
+		log.info("Verify activation key");
+		return employeeDao.findByKey(key);
 	}
 }

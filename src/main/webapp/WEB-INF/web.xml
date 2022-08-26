@@ -40,6 +40,11 @@
 		<servlet-class>com.servlet.CSVServlet</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<servlet-name>activate</servlet-name>
+		<servlet-class>com.servlet.ActivateServlet</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>account</servlet-name>
 		<url-pattern>/account</url-pattern>
@@ -73,6 +78,11 @@
 	<servlet-mapping>
 		<servlet-name>csv</servlet-name>
 		<url-pattern>/csv</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>activate</servlet-name>
+		<url-pattern>/activate</url-pattern>
 	</servlet-mapping>
 	<!-- session timeout -->
 	<session-config>

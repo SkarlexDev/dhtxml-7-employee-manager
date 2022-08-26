@@ -9,7 +9,7 @@
 			background: linear-gradient(#141e30, #243b55);
 		}
 
-		h1 {
+		h1,h3 {
 			padding: 10px 0;
 			font-size: 32px;
 			font-weight: 300;
@@ -47,7 +47,7 @@
 			background: #fff;
 		}
 
-		button {
+		#submitButton {
 			width: 100%;
 			padding: 10px 0;
 			margin: 10px auto;
@@ -59,6 +59,6 @@
 			color: #fff;
 		}
 
-		button:hover {
+		#submitButton:hover {
 			background: #26a9e0;
 		}

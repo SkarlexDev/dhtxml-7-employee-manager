@@ -8,21 +8,25 @@ import java.util.Optional;
 public interface EmployeeDao {
 
 	Optional<Employee> findByEmail(String email);
-	
+
 	Optional<Employee> findByEmpID(Long id);
-	
+
 	Optional<Employee> findByLoginAndPassword(String login, String password);
-	
-    List<Employee> findAll();    
 
-    boolean save(Employee bean);
+	List<Employee> findAll();
 
-    boolean update(Employee bean);
-    
-    void updateEmployeeVacationDays(Long result, Long id);
-    
-    Long checkRemainingDays(Long id);
-    
-    boolean delete(Long id);    
+	boolean save(Employee bean);
+
+	boolean update(Employee bean);
+
+	void updateEmployeeVacationDays(Long result, Long id);
+
+	Long checkRemainingDays(Long id);
+
+	boolean delete(Long id);
+
+	boolean activate(Employee bean, String key);
+
+	boolean findByKey(String key);
 
 }

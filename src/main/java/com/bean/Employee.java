@@ -16,6 +16,8 @@ public class Employee {
     private String country;
     private String password;
     private Long vacations;
+    private String alias;
+    private String activation_key;
     private Set<Role> roles = new HashSet<>();
 
     public Employee() {
@@ -90,6 +92,30 @@ public class Employee {
 		this.password = password;
 	}
 
+	public Long getVacations() {
+		return vacations;
+	}
+
+	public void setVacations(Long vacations) {
+		this.vacations = vacations;
+	}
+	
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}	
+
+	public String getActivation_key() {
+		return activation_key;
+	}
+
+	public void setActivation_key(String activation_key) {
+		this.activation_key = activation_key;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -102,20 +128,11 @@ public class Employee {
 		this.roles = roles;
 	}
 
-	public Long getVacations() {
-		return vacations;
-	}
-
-	public void setVacations(Long vacations) {
-		this.vacations = vacations;
-	}
-
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", birthDate="
 				+ birthDate + ", address=" + address + ", country=" + country + ", password=" + password
-				+ ", vacations=" + vacations + ", roles=" + roles + "]";
+				+ ", vacations=" + vacations + ", alias=" + alias + ", roles=" + roles + "]";
 	}
-	
 
 }

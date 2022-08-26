@@ -71,8 +71,6 @@ public class AccountServlet extends VelocityLayoutServlet {
 			}
 		}
 
-
-
 		return template;
 	}
 }

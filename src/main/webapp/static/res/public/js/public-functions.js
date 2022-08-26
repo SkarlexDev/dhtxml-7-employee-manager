@@ -77,7 +77,7 @@ function requestVacationForm(title, id, action) {
 				labelPosition: "top",
 				labelWidth: 140,
 				disabled: true,
-				hidden: false,
+				hidden: true,
 				value : 0,
 			},
 			{
