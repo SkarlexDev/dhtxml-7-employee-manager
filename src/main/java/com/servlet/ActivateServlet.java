@@ -21,10 +21,9 @@ public class ActivateServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		log.info("Creating activation page");
+		log.info("Request to generate activation page");
 		HttpHandler.handle(res);
 		String key = req.getParameter("key");
-		System.out.println(key);
 		if(!employeeService.findByKeyNotActivated(key)) {
 			res.sendRedirect("login");
 		}else {

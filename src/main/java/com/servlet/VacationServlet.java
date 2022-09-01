@@ -39,8 +39,7 @@ public class VacationServlet extends HttpServlet {
 			} catch (Exception e) {
 				res.sendRedirect("login");
 			}
-		}
-		
+		}		
 	}
 
 	@Override

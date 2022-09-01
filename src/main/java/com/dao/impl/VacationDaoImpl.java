@@ -1,14 +1,18 @@
 package com.dao.impl;
 
-import com.bean.Vacation;
-import com.dao.VacationDao;
-import com.util.DbUtil;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import com.bean.Vacation;
+import com.dao.VacationDao;
+import com.util.DbUtil;
 
 public class VacationDaoImpl implements VacationDao {
 
@@ -111,7 +115,7 @@ public class VacationDaoImpl implements VacationDao {
 	@Override
 	public boolean save(Vacation bean) {
 		log.info("Request save Employee Vacation");
-		String sql = "insert into projecta.vacation (starting, ending, reason, status, employee_id) Values (?, ?, ?, ?, ?)";
+		String sql = "insert into projecta.vacation (starting, ending, reason, employee_id) Values (?, ?, ?, ?)";
 		Connection conn = null;
 		PreparedStatement st = null;
 		try {
@@ -120,8 +124,7 @@ public class VacationDaoImpl implements VacationDao {
 			st.setDate(1, Date.valueOf(bean.getVacationFrom()));
 			st.setDate(2, Date.valueOf(bean.getVacationTo()));
 			st.setString(3, bean.getReason());
-			st.setString(4, "Pending");
-			st.setLong(5, bean.getEmployeeId());
+			st.setLong(4, bean.getEmployeeId());
 			return st.executeUpdate() > 0;
 		} catch (ClassNotFoundException | SQLException e1) {
 			log.info("Failed to insert data!");

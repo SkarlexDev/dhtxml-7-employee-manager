@@ -23,7 +23,7 @@ public class MailServiceImpl implements Runnable {
 	@Override
 	public void run() {
 		
-		String targetEmail = bean.getEmail();
+		String targetEmail = "adrian.blaga@verticaldigital.ca";//bean.getEmail();		
 		
 		final String username = "fast6trade@gmail.com";
 		final String password = "qcgurscfjnnrrest";
@@ -58,7 +58,4 @@ public class MailServiceImpl implements Runnable {
 			e.printStackTrace();
 		}
 	}	
-	
-	
-	
 }

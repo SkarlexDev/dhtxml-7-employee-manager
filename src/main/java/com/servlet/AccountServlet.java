@@ -2,6 +2,7 @@ package com.servlet;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,13 +18,15 @@ import com.service.impl.EmployeeServiceImpl;
 import com.util.HttpHandler;
 
 public class AccountServlet extends VelocityLayoutServlet {
-
 	private static final long serialVersionUID = 1L;
+	
+	private final Logger log = Logger.getLogger(AccountServlet.class.getName());
 
 	private final EmployeeService employeeService = new EmployeeServiceImpl();
 
 	@Override
 	protected Template handleRequest(HttpServletRequest req, HttpServletResponse res, Context context) {
+		log.info("Request to generate account page");
 		HttpHandler.handle(res);
 		Template template = getTemplate("templates/account.html");
 		String id = req.getParameter("id");

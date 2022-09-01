@@ -123,8 +123,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		if (findByEmail(bean.getEmail()).isPresent()) {
 			return false;
 		}
-		String sql = "insert into projecta.employee (name, phone, email, birth_date, address, country, password, vacations, activated, activation_key) "
-				+ "VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into projecta.employee (name, phone, email, birth_date, address, country, password, vacations, activation_key) "
+				+ "VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conn = null;
 		PreparedStatement st = null;
 		try {
@@ -138,10 +138,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			st.setString(6, bean.getCountry());
 			st.setString(7, bean.getPassword());
 			st.setLong(8, 50);
-			st.setBoolean(9, false);
-			st.setString(10, bean.getActivation_key());
+			st.setString(9, bean.getActivation_key());
 			if (st.executeUpdate() > 0) {
-				String role = "insert into projecta.employee_role (emp_id , role_id) Values ((select e.id from projecta.employee e where e.email = ?), (select r.id from projecta.role r where r.name ='User'))";
+				String role = "insert into projecta.employee_role (emp_id , role_id) "
+						+ "Values ((select e.id from projecta.employee e where e.email = ?), (select r.id from projecta.role r where r.name ='User'))";
 				PreparedStatement sts = conn.prepareStatement(role);
 				sts.setString(1, bean.getEmail());
 				int update = sts.executeUpdate();
@@ -198,7 +198,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			e1.printStackTrace();
 		} finally {
 			DbUtil.closeConn(null, st, conn);
-		}		
+		}
 	}
 
 	@Override
@@ -207,14 +207,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		String sql = "select e.vacations from projecta.employee e inner join projecta.vacation v on v.employee_id = e.id where v.id = ?";
 		Connection conn = null;
 		PreparedStatement st = null;
-		ResultSet rs= null;
+		ResultSet rs = null;
 		Long days = 0L;
 		try {
 			conn = DbUtil.getConnection();
 			st = conn.prepareStatement(sql);
 			st.setLong(1, id);
 			rs = st.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				days = rs.getLong(1);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
@@ -243,7 +243,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			DbUtil.closeConn(null, st, conn);
 		}
 	}
-	
+
 	@Override
 	public boolean activate(Employee bean, String key) {
 		log.info("Request to activate Employee");
@@ -264,14 +264,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			DbUtil.closeConn(null, st, conn);
 		}
 	}
-	
+
 	@Override
 	public boolean findByKey(String key) {
 		log.info("Request to find employee by activation key");
 		String sql = "select * from projecta.employee where activation_key = ? and activated = false";
 		Connection conn = null;
 		PreparedStatement st = null;
-		ResultSet rs= null;
+		ResultSet rs = null;
 		try {
 			conn = DbUtil.getConnection();
 			st = conn.prepareStatement(sql);
@@ -285,7 +285,45 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			DbUtil.closeConn(rs, st, conn);
 		}
 	}
+
+	@Override
+	public boolean addRole(long id) {
+		String sql = "insert into projecta.employee_role (emp_id, role_id) values (?, (select r.id from projecta.role r where r.name = ?));";
+		Connection conn = null;
+		PreparedStatement st = null;
+		try {
+			conn = DbUtil.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setLong(1, id);
+			st.setString(2, "Admin");
+			return st.executeUpdate() > 0;
+		} catch (ClassNotFoundException | SQLException e1) {
+			log.info("Failed to insert data!");
+			return false;
+		} finally {
+			DbUtil.closeConn(null, st, conn);
+		}
+	}
 	
+	@Override
+	public boolean removeRole(long id) {
+		String sql = "delete from projecta.employee_role where emp_id = ? and role_id = (select r.id from projecta.role r where r.name = ?)";
+		Connection conn = null;
+		PreparedStatement st = null;
+		try {
+			conn = DbUtil.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setLong(1, id);
+			st.setString(2, "Admin");
+			return st.executeUpdate() > 0;
+		} catch (ClassNotFoundException | SQLException e1) {
+			log.info("Failed to delete data!");
+			return false;
+		} finally {
+			DbUtil.closeConn(null, st, conn);
+		}
+	}
+
 	private Employee createEmployee(ResultSet rs, Connection conn) throws SQLException {
 		Employee bean = new Employee();
 		bean.setId(rs.getLong(1));
@@ -302,7 +340,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	private Set<Role> createRoles(long id, Connection conn) throws SQLException {
 		LinkedHashSet<Role> roles = new LinkedHashSet<>();
-		String sqlRole = "select r.name from projecta.role r inner join projecta.employee_role er on er.role_id = r.id inner join projecta.employee e on er.emp_id = e.id where e.id = ?";
+		String sqlRole = "select r.name from projecta.role r "
+				+ "inner join projecta.employee_role er on er.role_id = r.id "
+				+ "inner join projecta.employee e on er.emp_id = e.id where e.id = ? " + "ORDER BY Case "
+				+ "when r.name = 'Creator' then 1 " + "when r.name = 'Admin' then 2 " + "when r.name = 'User' then 3 "
+				+ "end asc";
 		PreparedStatement st = conn.prepareStatement(sqlRole);
 		st.setLong(1, id);
 		ResultSet rs = st.executeQuery();
@@ -313,7 +355,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		rs.close();
 		return roles;
 	}
-	
+
 	private Role createRole(ResultSet rs) throws SQLException {
 		Role bean = new Role();
 		bean.setName(rs.getString(1));

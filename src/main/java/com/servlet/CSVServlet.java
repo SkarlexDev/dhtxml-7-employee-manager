@@ -48,6 +48,7 @@ public class CSVServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		log.info("Request to read uploaded csv file");
 		Part filePart = req.getPart("file");
 		InputStream fileInputStream = filePart.getInputStream();
 		String state = csvService.upload(fileInputStream);

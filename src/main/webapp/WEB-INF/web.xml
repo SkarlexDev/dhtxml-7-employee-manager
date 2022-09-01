@@ -6,8 +6,18 @@
 	<display-name>employee-manager</display-name>
 
 	<servlet>
+		<servlet-name>data</servlet-name>
+		<servlet-class>com.servlet.DataServlet</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>account</servlet-name>
 		<servlet-class>com.servlet.AccountServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>creator</servlet-name>
+		<servlet-class>com.servlet.CreatorServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -34,20 +44,30 @@
 		<servlet-name>logout</servlet-name>
 		<servlet-class>com.servlet.LogoutServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>csv</servlet-name>
 		<servlet-class>com.servlet.CSVServlet</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>activate</servlet-name>
 		<servlet-class>com.servlet.ActivateServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
+		<servlet-name>data</servlet-name>
+		<url-pattern>/data</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
 		<servlet-name>account</servlet-name>
 		<url-pattern>/account</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>creator</servlet-name>
+		<url-pattern>/creator</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
@@ -74,12 +94,12 @@
 		<servlet-name>logout</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>csv</servlet-name>
 		<url-pattern>/csv</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>activate</servlet-name>
 		<url-pattern>/activate</url-pattern>

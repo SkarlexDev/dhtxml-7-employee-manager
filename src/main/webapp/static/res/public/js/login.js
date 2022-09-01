@@ -1,7 +1,7 @@
 const form = document.querySelector('#loginForm');
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
-   var formValue = {
+	e.preventDefault();
+	var formValue = {
 		email: $("#email").val(),
 		password: $("#password").val()
 	}

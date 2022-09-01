@@ -78,7 +78,7 @@ function requestVacationForm(title, id, action) {
 				labelWidth: 140,
 				disabled: true,
 				hidden: true,
-				value : 0,
+				value: 0,
 			},
 			{
 				name: "vacationFrom",

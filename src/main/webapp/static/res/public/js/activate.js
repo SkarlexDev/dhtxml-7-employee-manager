@@ -1,4 +1,4 @@
-$('#password, #confirm_password').on('keyup', function() {
+$('#password, #confirm_password').on('keyup', function () {
 	if ($('#password').val() == $('#confirm_password').val()) {
 		$('#message').html('Password Matching').css('color', 'green');
 	} else
@@ -17,10 +17,10 @@ form.addEventListener('submit', (e) => {
 			type: "POST",
 			url: "activate?" + window.location.search.substring(1),
 			data: JSON.stringify(formValue),
-			success: function(data) {
+			success: function (data) {
 				location.href = "login";
 			},
-			error: function(err) {
+			error: function (err) {
 				testing = err;
 				bootbox.dialog({
 					title: 'Failed',

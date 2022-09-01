@@ -13,5 +13,8 @@ Page functions:
 6. View employee - velocity page</br>
 7. Download vacation csv</br>
 8. Upload vacation csv</br>
+9. Manage vacation (Accept/Edit/Decline by admins)</br>
+10. Creator page - view charts</br>
+11. Creator page - manage admins </br>
 
 DB schema : [Here](https://github.com/SkarlexDev/dhtxml-7-employee-manager/blob/main/src/main/webapp/static/fake-data/data)

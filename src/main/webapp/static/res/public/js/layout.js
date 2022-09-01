@@ -96,7 +96,7 @@ const grid = new dhx.Grid(null, {
 	},
 	{
 		id: "roles",
-		gravity: 1.5,
+		gravity: 1.7,
 		header: [{
 			text: "Roles",
 			align: "center",
@@ -116,15 +116,8 @@ const grid = new dhx.Grid(null, {
 			rowspan: 2
 		}],
 		htmlEnable: true,
-		align: "center",
-		template: function () {
-			return "<span class='action-buttons'>"
-				+ "<div class='btn btn-success view-button'>View</div>"
-				+ "<div class='btn btn-primary add-button'>Add</div>"
-				+ "<div class='btn btn-secondary list-button'>List</div>"
-				+ "<div class='btn btn-info edit-button'>Edit</div>"
-				+ "<div class='btn btn-danger remove-button'>Delete</div></span>";
-		},
+		template: template_buttons,
+		align: "center"
 	},
 	],
 	autoWidth: true,
@@ -159,6 +152,24 @@ function accessTemplate(value) {
 	});
 	return `<div>${result}</div>`;
 }
+
+function template_buttons(value, row, col) {
+	let template = "<div class='btn btn-success view-button'>View</div>"
+		+ "<div class='btn btn-primary add-button'>Add</div>"
+		+ "<div class='btn btn-info list-button'>List</div>";
+
+	if (row.roles.filter(x => x.name == "Creator").length == 1) {
+		template = template.concat("<div class='btn btn-dark disabled'>Edit</div><div class='btn btn-dark disabled'>Delete</div>");
+	} else {
+		if (row.roles.filter(x => x.name == "Admin").length == 1) {
+			template = template.concat("<div class='btn btn-warning edit-button'>Edit</div><div class='btn btn-dark disabled'>Delete</div>");
+		} else {
+			template = template.concat("<div class='btn btn-warning edit-button'>Edit</div><div class='btn btn-danger remove-button'>Delete</div>");
+		}
+	}
+	return `<span class='action-buttons'>${template}</span>`;
+}
+
 grid.data.load("employee");
 
 layout.getCell("toolbar").attach(toolbar);

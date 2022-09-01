@@ -57,6 +57,22 @@ public class EmployeeServlet extends HttpServlet {
                 }
                 break;
             }
+            case "add-admin" -> {
+                log.info("Request to add admin role to employee");
+                if (!employeeService.addRole(Long.parseLong(req.getParameter("id")))) {
+                    log.info("Failed to add role");
+                    res.setStatus(HttpServletResponse.SC_CONFLICT);
+                }
+                break;
+            }
+            case "remove-admin" -> {
+                log.info("Request to remove admin role to employee");
+                if (!employeeService.removeRole(Long.parseLong(req.getParameter("id")))) {
+                    log.info("Failed to remove role");
+                    res.setStatus(HttpServletResponse.SC_CONFLICT);
+                }
+                break;
+            }
             default -> {
                 res.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 break;

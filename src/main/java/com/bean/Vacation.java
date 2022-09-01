@@ -64,7 +64,7 @@ public class Vacation {
 	public void setEmployeeId(Long employeeId) {
 		this.employeeId = employeeId;
 	}
-	
+
 	public String uploadProtect() {
 		return this.getStatus().contains("Declined") ? status : this.hashCode() + "";
 	}
@@ -75,5 +75,4 @@ public class Vacation {
 				+ reason + ", status=" + this.uploadProtect() + ", employeeId=" + employeeId + "]";
 	}
 
-	
 }

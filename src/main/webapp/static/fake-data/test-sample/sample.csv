@@ -1,0 +1,8 @@
+vacationFrom,vacationTo,reason,status,employeeId
+2022-09-03,2022-09-10,Sick,Declined,9
+2022-09-03,2022-09-10,Trip,Declined,9
+2022-09-03,2022-09-10,Sick,Accepted,9
+2022-12-02,2022-12-13,Holiday,Declined,11
+2022-11-03,2022-11-23,Holiday,Pending,11
+2022-09-08,2022-10-19,Sick,Accepted,12
+2022-09-29,2022-11-30,Holiday,Pending,9

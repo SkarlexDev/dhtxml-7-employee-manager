@@ -3,6 +3,7 @@
 
 <head>
 	#parse("/fragments/index_header.html")
+	<title>Admin</title>
 	<script type="text/javascript">
 		var user = '${user}';
 	</script>
@@ -10,9 +11,16 @@
 
 <body>
 	<div id="layout" style="height: 100%"></div>
+	#if($role == 'Creator')
+	<script type="text/javascript" src="static/res/public/js/toolbar-cfg-creator.js"></script>
+	#else
 	<script type="text/javascript" src="static/res/public/js/toolbar-cfg.js"></script>
+	#end
 	<script type="text/javascript" src="static/res/public/js/employee.js"></script>
 	<script type="text/javascript" src="static/res/public/js/layout.js"></script>
+	#if($role == 'Creator')
+	<script type="text/javascript" src="static/res/public/js/toolbar-events-creator.js"></script>
+	#end
 	<script type="text/javascript" src="static/res/public/js/public-functions.js"></script>
 	<script type="text/javascript" src="static/res/public/js/create-employee-form.js"></script>
 	<script type="text/javascript" src="static/res/public/js/create-vacation-form.js"></script>

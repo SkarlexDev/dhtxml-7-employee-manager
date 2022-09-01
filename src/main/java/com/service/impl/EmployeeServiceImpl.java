@@ -28,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     
     @Override
     public String getAllJson() {
-        log.info("Requesting all Employee as json");
+        log.info("Requesting all Employee json");
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
         gsonBuilder.setLongSerializationPolicy(LongSerializationPolicy.STRING);
@@ -37,7 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException {
-        log.info("Parsing json to Employee bean for save");
+        log.info("Parsing json to Employee bean and save");
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
         Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
@@ -53,13 +53,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean delete(Long id) {
-        log.info("Parsing json to id");
+        log.info("Parsing json to id and delete");
         return employeeDao.delete(id);
     }
 
     @Override
     public boolean update(long parseLong, HttpServletRequest req) throws JsonSyntaxException, IOException {
-        log.info("Parsing json to Employee bean for update");
+        log.info("Parsing json to Employee bean and update");
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
         Employee bean = (Employee) gsonBuilder.create().fromJson(JsonToStringUtil.format(req), Employee.class);
@@ -68,6 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Optional<Employee> getByID(Long id) {
+		log.info("Request to find Emmployee by empID");
 		return employeeDao.findByEmpID(id);
 	}
 
@@ -100,5 +101,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public boolean findByKeyNotActivated(String key) {
 		log.info("Verify activation key");
 		return employeeDao.findByKey(key);
+	}
+
+	@Override
+	public boolean addRole(long id) {
+		log.info("Update role for user with id " + id);
+		return employeeDao.addRole(id);
+	}
+
+	@Override
+	public boolean removeRole(long id) {
+		log.info("Delete role for user with id " + id);
+		return employeeDao.removeRole(id);
 	}
 }

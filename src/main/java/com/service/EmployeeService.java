@@ -8,23 +8,26 @@ import javax.servlet.http.HttpServletRequest;
 import com.bean.Employee;
 import com.google.gson.JsonSyntaxException;
 
-
 public interface EmployeeService {
 
-    String getAllJson();
+	String getAllJson();
 
-    boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException;
+	boolean create(HttpServletRequest req) throws JsonSyntaxException, IOException;
 
-    boolean delete(Long id);
+	boolean delete(Long id);
 
-    boolean update(long parseLong, HttpServletRequest req) throws JsonSyntaxException, IOException;
+	boolean update(long parseLong, HttpServletRequest req) throws JsonSyntaxException, IOException;
 
-    Optional<Employee> getByID(Long id);
-    
-    Optional<Employee> getByUserNameAndPassword(HttpServletRequest req) throws JsonSyntaxException, IOException;
+	Optional<Employee> getByID(Long id);
+
+	Optional<Employee> getByUserNameAndPassword(HttpServletRequest req) throws JsonSyntaxException, IOException;
 
 	boolean activate(HttpServletRequest req) throws JsonSyntaxException, IOException;
 
 	boolean findByKeyNotActivated(String key);
+
+	boolean addRole(long id);
+
+	boolean removeRole(long id);
 
 }

@@ -1,9 +1,9 @@
 package com.dao;
 
-import com.bean.Employee;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.bean.Employee;
 
 public interface EmployeeDao {
 
@@ -28,5 +28,9 @@ public interface EmployeeDao {
 	boolean activate(Employee bean, String key);
 
 	boolean findByKey(String key);
+
+	boolean addRole(long id);
+
+	boolean removeRole(long id);
 
 }

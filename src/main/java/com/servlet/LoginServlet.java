@@ -50,9 +50,10 @@ public class LoginServlet extends HttpServlet {
                 res.getWriter().print("User not found!");
                 res.setStatus(HttpServletResponse.SC_FORBIDDEN);
             } else {
-            	role =  user.get().getRoles().stream().anyMatch(r-> r.getName().equals("Admin")) ? "Admin" : "User";
+            	Employee bean = user.get();
+            	role =  bean.getRoles().stream().anyMatch(r-> r.getName().equals("Creator")) ? "Creator" : bean.getRoles().stream().anyMatch(r-> r.getName().equals("Admin")) ? "Admin" : "User";
                 session = req.getSession(true);
-                session.setAttribute("user", user.get());
+                session.setAttribute("user", bean);
                 session.setAttribute("role", role);
             }
         }

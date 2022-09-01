@@ -72,7 +72,7 @@ public class CSVServiceImpl implements CSVService {
 					resp.append("Invalid date - row: ").append(row.get() + 1).append("</br>");
 				}
 				if (!temp.add(v.toString())) {
-					resp.append("Duplicate - row: ").append(row.get() + 1 + " " + v).append("</br>");
+					resp.append("Duplicate - row: ").append(row.get() + 1).append("</br>");
 				}
 				if (dbCheckDuplicate(db, v)) {
 					resp.append("Duplicate database - row: ").append(row.get() + 1).append("</br>");

@@ -7,7 +7,7 @@ const vacation = new dhx.Grid("form_vacation_list_account", {
 			text: "id",
 			align: "center",
 		}],
-	},{
+	}, {
 		id: "vacationFrom",
 		header: [{
 			text: "From",

@@ -13,7 +13,12 @@ CREATE TABLE IF NOT EXISTS projecta.employee
     birth_date date,
     address character varying COLLATE pg_catalog."default",
     country character varying COLLATE pg_catalog."default",
+    alias character varying COLLATE pg_catalog."default",
+    activation_key character varying COLLATE pg_catalog."default",
+    activated boolean DEFAULT false,
     CONSTRAINT employee_pkey PRIMARY KEY (id),
+    CONSTRAINT activation_key_unique UNIQUE (activation_key),
+    CONSTRAINT alias_unique UNIQUE (alias),
     CONSTRAINT email_unique UNIQUE (email)
 )
 
@@ -21,7 +26,7 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS projecta.employee
     OWNER to postgres;
-
+ 
 -- Table: projecta.role
 
 -- DROP TABLE IF EXISTS projecta.role;
@@ -37,7 +42,7 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS projecta.role
     OWNER to postgres;
-
+    
 -- Table: projecta.employee_role
 
 -- DROP TABLE IF EXISTS projecta.employee_role;
@@ -85,7 +90,7 @@ CREATE INDEX IF NOT EXISTS fki_role_id_fk
     ON projecta.employee_role USING btree
     (role_id ASC NULLS LAST)
     TABLESPACE pg_default;
-
+    
 -- Table: projecta.vacation
 
 -- DROP TABLE IF EXISTS projecta.vacation;
@@ -96,7 +101,7 @@ CREATE TABLE IF NOT EXISTS projecta.vacation
     starting date,
     ending date,
     reason character varying COLLATE pg_catalog."default",
-    status character varying COLLATE pg_catalog."default",
+    status character varying COLLATE pg_catalog."default" DEFAULT 'Pending'::character varying,
     employee_id bigint NOT NULL,
     CONSTRAINT vacation_pkey PRIMARY KEY (id),
     CONSTRAINT emp_id_fk FOREIGN KEY (employee_id)
